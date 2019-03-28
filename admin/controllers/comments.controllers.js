@@ -8,6 +8,7 @@ exports.create=function(req,res,next){
     comments.save().then((data)=>res.json(data));
 }
 
+
 exports.update=function(req,res,next){
     const id=req.params.id;
     Comments.findByIdAndUpdate(id,{$set:req.body},{new:false}).then(data=>{

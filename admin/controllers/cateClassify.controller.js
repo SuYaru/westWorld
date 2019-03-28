@@ -1,21 +1,23 @@
 const mongoose = require('mongoose');
 var async = require('async');
-var Cate = require('../models/cate.model');
+var CateClassify = require('../models/cateClassify.model');
 
   exports.create = function(req, res, next) {
       //console.log(675675);
-      const cate = new Cate(req.body);
-      cate.save().then((data) => res.json(data));
+      const cateClassify = new CateClassify(req.body);
+
+      cateClassify.save().then((data) => res.json(data));
   }
 
   exports.update = function(req,res,next){
     const id = req.params.id;
-    Cate.findByIdAndUpdate(id,{$set: req.body},{new:false}).then(data=>{
+    CateClassify.findByIdAndUpdate(id,{$set: req.body},{new:false}).then(data=>{
       res.json(data);
     })
   }
 
   exports.remove = function(req,res,next){
+     //console.log(req.params.id);
      // 这里存在异步问题，也许当还没删除完毕，就直接res 了，这里要等
      // 删除完毕再回调
       async.series({
@@ -33,15 +35,15 @@ var Cate = require('../models/cate.model');
   // 递归删除节点
   function removeRecursive(targetId){
     // 找到父节点是id 的节点，，递归删除
-    Cate.findById(targetId).then(data=>{
+    CateClassify.findById(targetId).then(data=>{
       // 查询是否有同类型且父节点为 当前id 的子节点，有则递归删除；没有则删除当前节点
-      Cate.find({type:data.type,parentId:data._id}).then(data=>{
+      CateClassify.find({type:data.type,parentId:data._id}).then(data=>{
          if(data.length>0){
             data.forEach(function(value,index){
               removeRecursive(value._id);
             })
           }
-          Cate.findByIdAndDelete(targetId,(err,data)=>{
+          CateClassify.findByIdAndDelete(targetId,(err,data)=>{
           });
       });
     })
@@ -66,15 +68,14 @@ var Cate = require('../models/cate.model');
   }
 
   exports.list = function(req,res,next){
-      var type = req.params.type;
-      Cate.find({type:type},function(err,data){
-        res.json( reverseTree(data,null) );
-      })
+      CateClassify.find(function(err,data){
+          res.json(data);
+      });
   }
 
   exports.get = function(req,res,next){
       const id = req.params.id;
-      Cate.findById(id).then(data=>{
+      CateClassify.findById(id).then(data=>{
         res.json(data);
       })
   }

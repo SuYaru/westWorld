@@ -4,7 +4,6 @@ export const Base = {
         return {
           module    : 'users',
           modal1      : false,
-          isView      : false,
           listData: [],
           total   : 0,
           page    : 1,
@@ -14,9 +13,10 @@ export const Base = {
         }
       },
       methods:{
-        handleSubmit (name) {
+        handleSubmit (name,isTree) {
             this.$refs[name].validate((valid) => {
                 if (valid) {
+                  //console.log(this.formValidate._id);
                   if(this.formValidate._id && this.formValidate._id.trim().length>0){
                     // edit
                     this.axios({
@@ -24,22 +24,25 @@ export const Base = {
                       method: 'put',
                       data  : this.formValidate
                     }).then(res=>{
-                      console.log(res);
+                      //console.log(res);
                       this.$Message.success('修改数据成功!');
                       this.modal1 = false;
                       this.getData();
+                      this.handleReset();
                     })
                   }else{
                     // add
+                    //console.log(this.formValidate);
                     this.axios({
                       url   : `${commonUrl.url}/${this.module}`,
                       method: 'post',
                       data  : this.formValidate
                     }).then(res=>{
-                      // console.log(res);
+                      //console.log(res);
                       this.$Message.success('添加数据成功!');
                       this.modal1 = false;
                       this.getData();
+                      this.handleReset();
                     })
                   }
                 } else {
@@ -47,28 +50,21 @@ export const Base = {
                 }
             })
         },
-        handleReset (name) {
-            this.$refs[name].resetFields();
+        handleReset () {
+          //console.log('重置');
+          //console.log(this.$data.formValidate,this.$options.data().formValidate);
+            Object.assign(this.$data.formValidate,this.$options.data().formValidate);
         },
         ok () {
             this.$Message.info('Clicked ok');
         },
-        cancel (name) {
-            this.$refs[name].resetFields();
-            this.$Message.info('Clicked cancel');
+        cancel () {
+            this.handleReset();
         },
         addData(){
           this.modal1 = true;
         },
         getData(){
-          /* console.log({
-            page: this.page,
-            rows: this.rows,
-            name: this.name,
-            newsId: this.formValidate.newsId,
-            commonUrl:commonUrl
-          })
-          console.log(commonUrl.url); */
           this.axios({
             url   : `${commonUrl.url}/${this.module}/list`,
             method: 'post',
@@ -79,7 +75,7 @@ export const Base = {
               newsId: this.formValidate.newsId
             }
           }).then(res=>{
-            // console.log(res.data.rows);
+            //console.log(res.data.rows);
             this.listData = res.data.rows;
             this.total    = res.data.total;
           })
@@ -110,17 +106,14 @@ export const Base = {
               }
           });
         },
-        editData(id,isView){
-          // this.modal1 = true;
-          // console.log(id);
-
+        editData(id){
           this.axios({
             url:`${commonUrl.url}/${this.module}/${id}`,
             method:'get'
           }).then(res=>{
+            //console.log(res.data);
             this.formValidate = res.data;
             this.modal1 = true;
-            this.modal2 = isView;
           })
         },
         onSelectionChange(selection){
@@ -143,6 +136,7 @@ export const Base = {
                     ids: this.ids.toString()
                   }
                 }).then(res=>{
+                  this.handleReset();
                   this.getData();
                   this.$Message.info('Clicked ok');
                 })

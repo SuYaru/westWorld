@@ -1,5 +1,5 @@
 <template>
-  <div class="users">
+  <div class="news">
 
  <Row>
         <Col span="4"><Tree :data="treeData" @on-select-change="onTreeSelectChange"></Tree></Col>
@@ -18,17 +18,17 @@
             >
                 <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
                     <FormItem label="新闻分类ID" prop="newsId">
-                        <Input v-model="formValidate.newsId" :readonly="isView"></Input>
+                        <Input v-model="formValidate.newsId"></Input>
                     </FormItem>
 
                     <FormItem label="新闻标题" prop="title">
-                        <Input v-model="formValidate.title" placeholder="Enter your title" :readonly="isView"></Input>
+                        <Input v-model="formValidate.title" placeholder="Enter your title"></Input>
                     </FormItem>
                     <FormItem label="关键字" prop="keyWords">
-                        <Input v-model="formValidate.keyWords" placeholder="Enter your keyWords" :readonly="isView"></Input>
+                        <Input v-model="formValidate.keyWords" placeholder="Enter your keyWords"></Input>
                     </FormItem>
                     <FormItem label="作者" prop="author">
-                        <Input v-model="formValidate.author" placeholder="Enter your author" :readonly="isView"></Input>
+                        <Input v-model="formValidate.author" placeholder="Enter your author"></Input>
                     </FormItem>
                     <FormItem label="新闻内容" prop="content">
                        <quill-editor v-model="formValidate.content"
@@ -37,8 +37,7 @@
                         </quill-editor>
                     </FormItem>
                 </Form>
-                <div slot="footer" v-show="!isView">
-
+                <div slot="footer">
                     <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
                     <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
                 </div>
@@ -68,10 +67,12 @@ export default {
       module: 'news',
       //isView:false,
       formValidate: {
+          _id:null,
           newsId: null,
           title    : '',
           content: '',
-          date:''
+          author:'',
+          keyWords:'',
       },
       ruleValidate: {
           title: [
@@ -106,7 +107,6 @@ export default {
               title: '发布日期',
               key  : 'date',
               render: (h, params) => {
-                  console.log(params.row.date);
                 return h('strong',this.$moment(params.row.date).format('YYYY-MM-DD'));
               }
           },
@@ -117,22 +117,6 @@ export default {
             align: 'center',
             render: (h, params) => {
                 return h('div', [
-                    h('Button', {
-                        props: {
-                            type: 'primary',
-                            size: 'small'
-                        },
-                        style: {
-                            marginRight: '5px'
-                        },
-                        on: {
-                            click: () => {
-                                // this.show(params.index)
-                                // this.isView=true;
-                                this.editData(params.row._id,true);
-                            }
-                        }
-                    }, '查看详细新闻'),
                      h('Button', {
                         props: {
                             type: 'primary',
@@ -144,7 +128,7 @@ export default {
                         on: {
                             click: () => {
                                 // this.show(params.index)
-                                this.editData(params.row._id,false);
+                                this.editData(params.row._id);
                             }
                         }
                     }, '修改'),
@@ -166,6 +150,7 @@ export default {
     }
   },
   methods:{
+      /*  <Table :columns="columns" :data="listData" @on-selection-change="onSelectionChange"></Table> */
       onTreeSelectChange(node){
           this.formValidate.newsId = node[0]._id;
           this.getData();
@@ -183,7 +168,7 @@ export default {
               url:`${commonUrl.url}/cate/list/1`,
               method:'post'
           }).then(res=>{
-              // console.log(res.data);
+              console.log(res.data);
               this.treeData = res.data;
           })
       }

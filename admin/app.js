@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');    // 新增模块需要添加的�
 var newsRouter = require('./routes/news');
 var commentsRouter = require('./routes/comments');
 var cateRouter = require('./routes/cate');
+var cateClassifyRouter = require('./routes/cateClassify');
 var orderRouter = require('./routes/order');
 
 
@@ -35,6 +36,7 @@ app.use('/users', usersRouter);
 app.use('/news', newsRouter);
 app.use('/comments', commentsRouter);
 app.use('/cate', cateRouter);
+app.use('/cateClassify', cateClassifyRouter);
 app.use('/order', orderRouter);
 
 // catch 404 and forward to error handler

@@ -8,4 +8,4 @@ var CateSchema = new Schema({
 });
 
 CateSchema.plugin(materializedPlugin);
-module.exports = mongoose.model('Cate', CateSchema);  // Category
+module.exports = mongoose.model('CateClassify', CateSchema);  // Category

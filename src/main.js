@@ -13,6 +13,19 @@ Vue.use(require('vue-moment'));
 Vue.use(iView);
 Vue.config.productionTip = false
 
+// axios 在任何一次请求时都会触发
+axios.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  //console.log(store.state.token);
+  if(store.state.token){
+      config.headers.Authorization=`Bearer ${store.state.token}`;
+  }
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+
 new Vue({
   router,
   store,
