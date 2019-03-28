@@ -7,7 +7,7 @@ var schema=new mongoose.Schema({
     details:String,
     sdate:Date,
     fdate :Date,
-    progress:String
+    progress:Number
 
 });
 schema.plugin(mongoosePaginate);

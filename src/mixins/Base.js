@@ -72,7 +72,8 @@ export const Base = {
               page: this.page,
               rows: this.rows,
               name: this.name,
-              newsId: this.formValidate.newsId
+              newsId: this.formValidate.newsId,
+              orderId:this.formValidate.orderId
             }
           }).then(res=>{
             //console.log(res.data.rows);
@@ -80,6 +81,7 @@ export const Base = {
             this.total    = res.data.total;
           })
         },
+
         onChangePage(page){
           this.page = page;
           this.getData();

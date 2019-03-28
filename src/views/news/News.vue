@@ -12,6 +12,7 @@
         <Page :total="total" show-sizer @on-change="onChangePage" @on-page-size-change="onPageSizeChange" :page-size-opts="[5,10,20,30,40,50]"/>
             <Modal
                 v-model    = "modal1"
+
                 title      = "添加新闻"
                 @on-ok="ok"
                 @on-cancel="cancel('formValidate')"
@@ -107,7 +108,7 @@ export default {
               title: '发布日期',
               key  : 'date',
               render: (h, params) => {
-                return h('strong',this.$moment(params.row.date).format('YYYY-MM-DD'));
+                return h('strong',this.$moment(params.row.date).utc().zone(+6).format('YYYY-MM-DD'));
               }
           },
           {

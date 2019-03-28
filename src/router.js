@@ -33,30 +33,11 @@ export default new Router({
       component:()=>import('./views/cate/Cates')
     },
     {
-      path     : '/catenews',
-      name     : 'catesNews',
-      component:()=>import('./views/cate/catesNews')
+      path     : '/order',
+      name     : 'order',
+      component:()=>import('./views/order/order')
     },
-    {
-      path     : '/cate/product',
-      name     : 'catesproduct',
-      component:()=>import('./views/cate/catesProduct')
-    },
-    {
-      path     : '/cate/users',
-      name     : 'catesUsers',
-      component:()=>import('./views/cate/catesUsers')
-    },
-    {
-      path     : '/cate/area',
-      name     : 'catesArea',
-      component:()=>import('./views/cate/catesArea')
-    },
-    {
-      path:'/cate/album',
-      name:'catesAlbum',
-      component:() => import('./views/cate/catesAlbum')
-    },
+
 
   ]
 })

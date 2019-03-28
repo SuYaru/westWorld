@@ -112,9 +112,9 @@
                             <Submenu name="4">
                                 <template slot="title">
                                     <Icon type="logo-apple"></Icon>
-                                    产品管理
+                                    订单    管理
                                 </template>
-                                <MenuItem name="3-1"><router-link to="/product">产品管理</router-link></MenuItem>
+                                <MenuItem name="3-1"><router-link to="/order">订单管理</router-link></MenuItem>
                                 <MenuItem name="3-2">Option 2</MenuItem>
                             </Submenu>
                                 </Menu>
