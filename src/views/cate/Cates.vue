@@ -118,6 +118,7 @@ export default {
           delete(this.formValidate._id);
           this.formValidate.parentId=this.nowId;
           this.formValidate.type=this.type;
+          console.log(this.formValidate);
             this.modal1 = true;
         },
         handleInner(){

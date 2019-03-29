@@ -28,26 +28,45 @@
 .layout-footer-center{
     text-align: center;
 }
+.layout{
+    border: 1px solid #d7dde4;
+    background: #f5f7f9;
+    position: absolute;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554430182&di=ca38dc2f693215ca2ab423f6376822ca&imgtype=jpg&er=1&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F9%2F540559494b474.jpg") no-repeat;
+}
+/* .vertical-center-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
 </style>
 <template>
-    <div class="layout">
-        <div v-if="!login">
-            请登录
-            <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-                <FormItem prop="name">
-                    <Input type="text" v-model="formInline.name" placeholder="Name">
-                        <Icon type="ios-person-outline" slot="prepend"></Icon>
-                    </Input>
-                </FormItem>
-                <FormItem prop="password">
-                    <Input type="password" v-model="formInline.password" placeholder="Password">
-                        <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                    </Input>
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" @click="handleSubmit('formInline')">Signin</Button>
-                </FormItem>
-            </Form>
+    <div class="layout" style="height:100%">
+        <div v-if="!login" class="vertical-center-modal">
+                <div style="padding: 30px;width: 500px;height: 300px;margin: auto;position: absolute;bottom: 0;top: 0;right: 0;left: 0;">
+                    <Card :bordered="false">
+                        <p slot="title">westWorld 后台管理系统登录</p>
+                        <p>
+                            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
+                                <FormItem label="用户名" prop="name">
+                                    <Input type="text" v-model="formCustom.name"></Input>
+                                </FormItem>
+                                <FormItem label="密码" prop="password">
+                                    <Input type="password" v-model="formCustom.password"></Input>
+                                </FormItem>
+                                <FormItem>
+                                    <Button type="primary" @click="handleSubmit('formCustom')">登陆</Button>
+                                    <Button @click="handleReset('formCustom')" style="margin-left: 8px">重置</Button>
+                                </FormItem>
+                            </Form>
+                        </p>
+                    </Card>
+
+            </div>
         </div>
         <div v-else>
             <Layout>
@@ -112,7 +131,7 @@
                             <Submenu name="4">
                                 <template slot="title">
                                     <Icon type="logo-apple"></Icon>
-                                    订单    管理
+                                    订单管理
                                 </template>
                                 <MenuItem name="3-1"><router-link to="/order">订单管理</router-link></MenuItem>
                                 <MenuItem name="3-2">Option 2</MenuItem>
@@ -137,12 +156,12 @@ import { commonUrl } from './mixins/commonUrl'
     export default {
         data () {
             return {
-                formInline: {
+                formCustom: {
                     name: '',
                     password: ''
                 },
-                ruleInline: {
-                    user: [
+                ruleCustom: {
+                    name: [
                         { required: true, message: 'Please fill in the user name', trigger: 'blur' }
                     ],
                     password: [
@@ -164,7 +183,7 @@ import { commonUrl } from './mixins/commonUrl'
                         this.axios({
                             url:`${ commonUrl.url}/users/login`,
                             method:'post',
-                            data:this.formInline
+                            data:this.formCustom
                         }).then(res=>{
                             this.setToken(res.data.token);
                             this.checklogin(true);

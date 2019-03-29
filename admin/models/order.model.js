@@ -14,4 +14,4 @@ schema.plugin(mongoosePaginate);
 // const User = mongoose.model('Users', { name: String,password:String,age:Number });
 
 
-module.exports=mongoose.model('Order',schema);;
+module.exports=mongoose.model('Order',schema);
